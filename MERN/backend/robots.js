@@ -17,7 +17,7 @@ const host = "localhost";
 const { MongoClient } = require("mongodb");
 // MongoDB
 const url = "mongodb://127.0.0.1:27017";
-const dbName = "secoms319";
+const dbName = "reactdata";
 const client = new MongoClient(url);
 const db = client.db(dbName);
 
@@ -25,7 +25,7 @@ app.get("/listRobots", async (req, res) => {
   await client.connect();
   console.log("Node connected successfully to GET MongoDB");
   const query = {};
-  const results = await db.collection("robot").find(query).limit(100).toArray();
+  const results = await db.collection("fakestore_catalog").find(query).limit(100).toArray();
   console.log(results);
   res.status(200);
   res.send(results);
@@ -37,7 +37,7 @@ app.get("/:id", async (req, res) => {
   await client.connect();
   console.log("Node connected successfully to GET-id MongoDB");
   const query = { id: robotid };
-  const results = await db.collection("robot").findOne(query);
+  const results = await db.collection("fakestore_catalog").findOne(query);
   console.log("Results :", results);
   if (!results) res.send("Not Found").status(404);
   else res.send(results).status(200);
@@ -49,7 +49,7 @@ app.get("/listRobots/:id", async (req, res) => {
   await client.connect();
   console.log("Node connected successfully to GET-id MongoDB");
   const query = { id: robotid };
-  const results = await db.collection("robot").findOne(query);
+  const results = await db.collection("fakestore_catalog").findOne(query);
   console.log("Results :", results);
   if (!results) res.send("Not Found").status(404);
   else res.send(results).status(200);
@@ -68,7 +68,7 @@ app.post("/addRobot", async (req, res) => {
     imageUrl: req.body.imageUrl, // also "imageUrl": req.body.imageUrl
   };
 
-  const results = await db.collection("robot").insertOne(newDocument);
+  const results = await db.collection("fakestore_catalog").insertOne(newDocument);
   res.status(200);
   res.send(results);
 });
@@ -86,7 +86,7 @@ app.delete("/deleteRobot", async (req, res) => {
     imageUrl: req.body.imageUrl, // also "imageUrl": req.body.imageUrl
   };
 
-  const results = await db.collection("robot").deleteOne(newDocument);
+  const results = await db.collection("fakestore_catalog").deleteOne(newDocument);
   res.status(200);
   res.send(results);
 });
@@ -98,7 +98,7 @@ app.delete("/deleteRobot/:id", async (req, res) => {
     console.log("Robot to delete :", id);
     const query = { id: id };
     // delete
-    const results = await db.collection("robot").deleteOne(query);
+    const results = await db.collection("fakestore_catalog").deleteOne(query);
     res.status(200);
     res.send(results);
   } catch (error) {
@@ -124,7 +124,7 @@ app.put("/updateRobot/:id", async (req, res) => {
   };
   // Add options if needed, for example { upsert: true } to create a document if it doesn't exist
   const options = { };
-  const results = await db.collection("robot").updateOne(query, updateData, options);
+  const results = await db.collection("fakestore_catalog").updateOne(query, updateData, options);
   res.status(200);
   res.send(results);
   });
